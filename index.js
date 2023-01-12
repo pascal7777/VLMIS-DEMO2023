@@ -34,14 +34,30 @@ const MongoStore = require('connect-mongo');
 // local db connect: 
 // mongoose.connect(dbURL, { useNewUrlParser: true, useUnifiedTopology: true })
 // Mongo Atlas connect
-mongoose.connect(dbURL, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => {
-        console.log("MONGO CONNECTION OPEN!!!")
-    })
-    .catch(err => {
-        console.log("OH NO MONGO CONNECTION ERROR!!!!")
-        console.log(err)
-    })
+// mongoose.connect(dbURL, { useNewUrlParser: true, useUnifiedTopology: true })
+//     .then(() => {
+//         console.log("MONGO CONNECTION OPEN!!!")
+//     })
+//     .catch(err => {
+//         console.log("OH NO MONGO CONNECTION ERROR!!!!")
+//         console.log(err)
+//     })
+
+const PORT = process.env.PORT || 3000
+
+const connectDB = async () => {
+  try {
+    const conn = await mongoose.connect(process.env.MONGO_URI);
+    console.log(`MongoDB Connected: ${conn.connection.host}`);
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
+}
+
+
+
+
 
 const app = express();
 
@@ -205,11 +221,17 @@ app.use((err, req, res, next) => {
 
 // +++++ listening +++++
 
-const PORT = process.env.PORT || 3000
-app.listen(PORT, () => {
-    console.log(`App listens on Port ${PORT}`)
-})
+// const PORT = process.env.PORT || 3000
+// app.listen(PORT, () => {
+//     console.log(`App listens on Port ${PORT}`)
+// })
 
+
+connectDB().then(() => {
+    app.listen(PORT, () => {
+        console.log("listening for requests");
+    })
+})
 
 // app.listen(3000, () => {
 //     console.log("APP IS LISTENING ON PORT 3000!")
