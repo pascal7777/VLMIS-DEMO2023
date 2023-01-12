@@ -1,0 +1,43 @@
+
+
+<div class="container">
+
+    <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid" style="font-family: fangsong">
+        <a class="navbar-brand" href="/"><b>VLMIS</b></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="navbar-nav">
+
+                <a class="nav-link" href="/sites">Sites</a>
+
+                <a class="nav-link" href="/products">Cycle count reports</a>
+
+            </div>
+            <div class="navbar-nav" style="margin-left:auto">
+                
+                <% if(!currentUser){%>
+                    <a class="nav-link" href="/login">Login</a>
+                    <a class="nav-link" href="/register">Register</a>
+                <%} else {%>
+                    <p style="margin-top:0.3em"><span style="color:rgb(242, 111, 5)">Logged in as: <%=currentUser.username.toUpperCase()%> - <%=currentUser.job_position %></span></p>
+                    <a class="nav-link" href="/logout">Logout</a>
+                <% }%>
+          
+                
+                 <% if(currentUser && currentUser.isAdmin){ %>   
+                    <p style="margin-top:0.3em"><span style="color:rgb(242, 111, 5)">(Admin)</span></p>
+                <% } %>
+            
+            
+            
+            </div>
+        </div>
+    </div>
+
+    </nav>
+
+</div>

@@ -1,0 +1,247 @@
+<% layout ('/layouts/boilerplate') %>
+
+    <div class="container">
+
+        <div class="container d-flex justify-content-center align-items-center mt-5">
+        <h1>Edit Stock data</h1>   </div>
+ 
+        <form action="/products/<%=product._id%>?_method=PUT" method="POST" novalidate class="validated-form"
+            enctype="multipart/form-data">
+            <br>
+            <div class="row">
+                <div class="col-md-3 offset-md-2">
+                    <label for="cat">Category</label>
+                    <select name="cat" id="cat">
+                        <option value="PENTA" <%=product.cat==='PENTA' ? 'selected' : '' %>>Penta</option>
+                        <option value="PNEUMONIAE" <%=product.cat==='PNEUMONIAE' ? ' selected' : '' %>>Pneumoniae
+                        </option>
+                        <option value="POLIO" <%=product.cat==='POLIO' ? 'selected' : '' %>>Polio</option>
+                        <option value="MEASLES" <%=product.cat==='MEASLES' ? 'selected' : '' %>>Measles</option>
+                        <option value="COVID-19" <%=product.cat==='COVID-19' ? 'selected' : '' %>>Covid-19</option>
+                        <option value="DILUENTS" <%=product.cat==='DILUENTS' ? 'selected' : '' %>>Diluents</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3 offset-md-2">
+                    <label for="type">Vaccine Type</label>
+                    <select name="type" id="type">
+                        <option value="ROUTINE" <%=product.type==='ROUTINE' ? 'selected' : '' %>>Routine</option>
+                        <option value="CAMPAIGN" <%=product.type==='CAMPAIGN' ? ' selected' : '' %>>Campaign
+                        </option>
+                        <option value="COVID-19" <%=product.type==='COVID-19' ? 'selected' : '' %>>Covid-19</option>
+                        <option value="OTHER" <%=product.type==='OTHER' ? 'selected' : '' %>>Other</option>
+                    </select>
+                </div>
+                <div class="col-md-3 offset-md-2">
+                    
+                </div>
+
+            </div>
+
+            <br>
+            <div class="row">
+
+                <div class="col-md-3 offset-md-2">
+                    <label for="name">Vaccine Name</label>
+                    <select name="name" id="name">
+                        <option value="PENTA" <%=product.name==='PENTA' ? 'selected' : '' %>>Penta</option>
+                        <option value="PCV" <%=product.name==='PCV' ? ' selected' : '' %>>PCV</option>
+                        <option value="IPV" <%=product.name==='IPV' ? 'selected' : '' %>>IPV</option>
+                        <option value="MR" <%=product.name==='MR' ? 'selected' : '' %>>MR</option>
+                        <option value="PFIZER" <%=product.name==='PFIZER' ? 'selected' : '' %>>Pfizer</option>
+                        <option value="MODERNA BIVALENT" <%=product.name==='MODERNA BIVALENT' ? 'selected' : '' %>
+                            >Moderna bivalent</option>
+                        <option value="COVISHIELD" <%=product.name==='COVISHIELD' ? 'selected' : '' %>>Covishield
+                        </option>
+                    </select>
+                    <div class="col-md-3 offset-md-2">
+                    
+                    </div>
+                </div>
+                <div class="col-md-3 offset-md-2">
+                    <label for="conversion">Conversion (dose/vial)</label>
+                    <input type="number" id="conversion" name="conversion" value="<%=product.conversion%>">
+                </div>
+                <div class="col-md-3 offset-md-2">
+
+                </div>
+
+            </div>
+            
+            
+            <br>
+            <hr style=" border: 0;
+            height: 2px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
+            <br>
+            <!-- <div class="row">
+                <div class="col">
+                    <label for="date_open">Date Last Stockcount</label>
+                </div>
+                <div class="col">
+                    <input type="date" id="date_open" name="date_open">
+                </div>
+                <div class="col">
+
+                </div>
+            </div>
+
+            <br> -->
+
+            <div class="row">
+                <div class="col-md-3 offset-md-2">
+                    <label for="qty_open">Qty last stock count (vials)</label>
+                    <input type="number" id="qty_open" name="qty_open" value="<%=product.qty_open%>">
+                </div>
+                <div class="col-md-3 offset-md-2">
+                    <!-- <label for="uom_open">UoM</label>
+                    <select name="uom_open" id="uom_open">
+                        <option selected>Vial</option>
+                    </select> -->
+                </div>
+            </div>
+            <br>
+            <hr style=" border: 0;
+            height: 2px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
+
+            <div class="row">
+                <div class="col-md-3 offset-md-2">
+                    <label for="qty_received">Receipts
+                        (since last stock count)</label>
+                    <input type="number" id="qty_received" name="qty_received" value="<%=product.qty_received%>">
+                </div>
+                <div class="col-md-3 offset-md-2">
+                    <label for="uom_received">UoM</label>
+                    <select name="uom_received" id="uom_received">
+                        <option value="vial" <%=product.uom_received==='vial' ? 'selected' : '' %>>Vial</option>
+                        <option value="dose" <%=product.uom_received==='dose' ? 'selected' : '' %>>Dose</option>
+                    </select>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-3 offset-md-2">
+                    <label for="qty_issued">Issued/Used (since last stock count)</label>
+                    <input type="number" id="qty_issued" name="qty_issued" value="<%=product.qty_issued%>">
+                </div>
+                <div class="col-md-3 offset-md-2">
+                    <label for="uom_issued">UoM</label>
+                    <select name="uom_issued" id="uom_issued" <select name="uom_issued" id="uom_issued">
+                        <option value="vial" <%=product.uom_issued==='vial' ? 'selected' : '' %>>Vial</option>
+                        <option value="dose" <%=product.uom_issued==='dose' ? 'selected' : '' %>>Dose</option>
+                    </select>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-3 offset-md-2">
+                    <label for="qty_lost">Losses (since last stock count in vials)</label>
+                    <input type="number" id="qty_lost" name="qty_lost" value="<%=product.qty_lost%>">
+                </div>
+                <div class="col-md-3 offset-md-2">
+                    <!-- <label for="uom_lost">UoM</label>
+                    <select name="uom_lost" id="uom_lost">
+                        <option selected>Vial</option>
+                    </select> -->
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-3 offset-md-2">
+                    <label for="qty_transferred">Transferred (+/- since last stock count in vials)</label>
+                    <input type="number" id="qty_transferred" name="qty_transferred"
+                        value="<%=product.qty_transferred%>">
+                </div>
+                <div class="col-md-3 offset-md-2">
+                    <!-- <label for="uom_transferred">UoM</label>
+                    <select name="uom_transferred" id="uom_transferred">
+                        <option selected>Vial</option>
+                    </select> -->
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-3 offset-md-2">
+                    <label for="qty_count">Stock Count (today, in vials)</label>
+                    <input type="number" id="qty_count" name="qty_count" value="<%=product.qty_count%>">
+                </div>
+                <div class="col-md-3 offset-md-2">
+                    <!-- <label for="uom_count">UoM</label>
+                    <select name="uom_count" id="uom_count">
+                        <option selected>Vial</option>
+                    </select> -->
+                </div>
+            </div>
+            <br>
+            <hr style=" border: 0;
+            height: 2px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
+            <br>
+            <div class="row">
+                <div class="col-md-3 offset-md-2">
+                    <label for="so_days">Stock out days in this period</label>
+                    <input type="number" id="so_days" name="so_days" value="<%=product.so_days%>">
+                </div>
+              
+                <div class="col-md-3 offset-md-2">
+                    <label for="nearexp">Nr Vials Near Expiration</label>
+                    <input type="number" id="nearexp" name="nearexp" value="<%=product.nearexp%>">
+                </div>
+
+            </div>
+
+            <br>
+            <hr style=" border: 0;
+            height: 2px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
+          
+          <div class="container d-flex justify-content-center align-items-center mt-5">
+          <h2>Update Supporting Documentation</h2></div>
+          
+          <br>
+            <div class="row">
+                <div class="col-md-3 offset-md-2">
+                    <div class="form-file custom-file">
+                        <input type="file" class="form-file-input" id="image" name="image" multiple>
+                        <label class="form-file-label" for="image">
+                            <span class="form-file-text custom-file-label">Upload Additional images</span>
+                            <!-- <span class="form-file-button">Browse</span> -->
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <br>
+            <hr style=" border: 0;
+            height: 2px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
+
+            <div class="row">
+                <div class="col-md-3 offset-md-2">
+                    <% product.images.forEach(function(img, i) { %>
+                        <img src="<%=img.thumbnail %>" class="img-thumbnail" alt="">
+                        <div class="form-check-inline">
+                            <input type="checkbox" id="image-<%=i%>" name="deleteImages[]" value="<%=img.filename%>">
+                        </div>
+                        <label for="image-<%=i%>">Delete?</label>
+                        <% })%>
+                </div>
+            </div>
+
+
+
+            <br>
+
+            <hr style=" border: 0;
+            height: 2px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
+            <br>
+
+            <div class="d-grid gap-2 col-6 mx-auto">
+            <button class="btn btn-success">Submit</button>  
+            <p><em>(note that submit may take some seconds depending on the nr images to upload, or delete)</em></p></div>
+        </form>
+        <br><br>
+
+    </div>

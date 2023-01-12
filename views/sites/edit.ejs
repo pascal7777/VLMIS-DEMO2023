@@ -1,0 +1,131 @@
+<% layout ('/layouts/boilerplate') %>
+    <div class="container">
+
+        <div class="container d-flex justify-content-center align-items-center mt-5">
+        <h1>Edit Site Information</h1>   </div>
+        <div class="container d-flex justify-content-center align-items-center">
+            <h2><span style="color:rgb(242, 111, 5)"><%=site.site_name%></span></h2></div>
+ 
+        <form action="/sites/<%=site._id%>?_method=PUT" method="POST" novalidate class="validated-form">
+            
+            <hr style=" border: 0;
+            height: 2px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
+
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                  <label for="sc_level">Supply chain level</label>
+                  <select class="form-select" name="sc_level" id="sc_level">
+                  <option value="PR" <%=site.sc_level==='PR' ? 'selected' : '' %>>Primary (central warehouse)</option>
+                  <option value="SN" <%=site.sc_level==='SN' ? 'selected' : '' %>>Subnational warehouse</option>
+                  <option value="LD" <%=site.sc_level==='LD' ? 'selected' : '' %>>Endpoint (district store)</option>
+                  <option value="SP" <%=site.sc_level==='SP' ? 'selected' : '' %>>Service delivery point (health facility)</option>
+                  </select>
+                </div>
+            </div>
+
+            <br>
+            <hr style=" border: 0;
+            height: 2px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
+            
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                        <label class="form-label" for="site_name" class="form-label">Name site</label>
+                        <input class="form-control" name="site_name" id="site_name" type="text"
+                        value="<%=site.site_name%>" required>
+                    
+                <br>
+                    <!-- <label class="form-label" for="site_code" class="form-label">Site Code</label>
+                    <input class="form-control"  name="site_code" id="site_code" value="<%=site.site_code%>"
+                        required> -->
+            
+                        <label class="form-label" for="site_district" class="form-label">Location</label>
+                        <input class="form-control" name="site_district" id="site_district" type="text"
+                        value="<%=site.site_district%>" required>
+
+                        <br>
+
+                        <label class="form-label" for="country" class="form-label">Country</label>
+                        <input class="form-control" name="country" id="country" type="text"
+                        value="<%=site.country%>" required>
+                </div>
+            </div>
+
+            <br>
+            <hr style=" border: 0;
+            height: 2px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
+
+            <!-- <div class="row">
+
+                <div class="col-md-6 offset-md-3">
+                    <label class="form-label" for="site_telephone" class="form-label">Telephone</label>
+                    <input class="form-control" type="text" name="site_telephone" id="site_telephone"
+                        value="<%=site.site_telephone%>">
+                    <br>
+                    <label class="form-label" for="site_email" class="form-label">Email</label>
+                    <input class="form-control" type="email" name="site_email" id="site_email"
+                        value="<%=site.site_email%>">
+                </div>
+
+                <div class="col-md-6 offset-md-3">
+                </div>
+                <div class="col-md-6 offset-md-3">
+                </div>
+            </div> -->
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <label class="form-label" for="site_storecap" class="form-label">Dry Store Capacity (M3/pallets)</label>
+                    <input class="form-control" name="site_storecap" id="site_storecap" type="number" 
+                    value="<%=site.site_storecap%>" required>
+               <br>
+                    <label class="form-label" for="site_fridgecap" class="form-label">Refrigerator capacity (L)</label>
+                    <input class="form-control" name="site_fridgecap" id="site_fridgecap" type="number" 
+                    value="<%=site.site_fridgecap%>" required>
+               <br>
+                    <label class="form-label" for="site_freezecap" class="form-label">-20C Freezer capacity (L)</label>
+                    <input class="form-control" name="site_freezecap" id="site_freezecap" type="number" 
+                    value="<%=site.site_freezecap%>" required>
+               <br>
+                    <label class="form-label" for="site_ulfreezecap" class="form-label">-70C Ultra-Freezer capacity (L)</label>
+                    <input class="form-control" name="site_ulfreezecap" id="site_ulfreezecap" type="number" 
+                    value="<%=site.site_ulfreezecap%>" required>  
+                
+                </div>
+            </div>
+
+            <br> <br>
+            <div class="row">
+                <br>
+                <hr style=" border: 0;
+                height: 2px;
+                background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
+                <div class="col-md-6 offset-md-3">
+                    <label class="form-label" for="parent_name" class="form-label">Name Supplying WH (Parent)</label>
+                    <input class="form-control" name="parent_name" id="parent_name" type="text"
+                        value="<%=site.parent_name%>" required>
+                <br>
+                    <label class="form-label" for="children_store" class="form-label">Nr of Dependent Stores</label>
+                    <input class="form-control" name="children_store" id="children_store" type="number" 
+                        value="<%=site.children_store%>" required>
+                <br>
+                    <label class="form-label" for="children_facility" class="form-label">Nr of Dependent Health Faclities</label>
+                    <input class="form-control" name="children_facility" id="children_facility" type="number" 
+                        value="<%=site.children_facility%>" required>
+                </div>
+
+
+            </div>
+       
+
+            <br>
+            <hr style=" border: 0;
+            height: 2px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
+
+            <br>
+            <div class="d-grid gap-2 col-6 mx-auto">
+            <button class="btn btn-success">Submit Edits</button> </div>
+        </form>
+    </div>

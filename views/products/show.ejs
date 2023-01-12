@@ -1,0 +1,272 @@
+<% layout ('/layouts/boilerplate') %>
+
+    <div class="container">
+
+        <div class="container d-flex justify-content-center align-items-center mt-5"> <h1>
+            Stock Report
+        </h1> </div>
+
+        <em> Stock Report Created at: <%=product.createdAt.toDateString()%> (<%= moment(product.createdAt).fromNow() %>
+                    )
+                    <br>Stock Report (last) Updated/Commented at: <%=product.updatedAt.toDateString()%> (<%=
+                            moment(product.updatedAt).fromNow() %>)
+                            <br>
+                            by: <%= product.author.username%> - <%= product.author.job_position%><br></em>
+        <br>
+        <hr style=" width:100%; height: 10px; border: 0; box-shadow: 0 10px 10px -10px rgb(51, 51, 52) inset;">
+        <div class="table-responsive">
+
+
+            <div class="card">
+                <h5 class="card-header">
+                    <a href="/sites/<%= product.site._id %>">
+                        <%= product.site.site_name%>
+                    </a>
+                </h5>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <div class="row">
+                            <div class="col-6">
+                                Date From: <%=product.date_open.toDateString() %>
+                            </div>
+                            <div class="col-6">
+                                Date To: <%=product.createdAt.toDateString() %>
+                            </div>
+                        </div>
+                    </h5>
+                    <h6 class="card-text"><em>Review Period (Nr Days): <%=((product.createdAt-
+                            product.date_open)/86400000).toFixed(0) %></em>R
+                    </h6>
+                </div>
+
+                <table class="table table-striped table-hover">
+                    <thead>
+
+                        <tr>
+                            <th scope="col">Product</th>
+                            <th scope="col">Type Stock</th>
+                            <th scope="col">Opening Stock <p class="fs-6, fw-lighter" style="margin-bottom :0em">
+                                    <%=product.date_open.toDateString()%>
+                                </p>
+                            </th>
+                            <th scope="col">Received</th>
+                            <th scope="col">Issued/Used</th>
+                            <th scope="col">Losses</th>
+                            <th scope="col">Transferred</th>
+                            <th scope="col">Stock Count <p class="fs-6, fw-lighter" style="margin-bottom :0em">
+                                    <%=product.createdAt.toDateString() %>
+                                </p>
+                            </th>
+                            <th>Short Shelflife stock</th>
+                            <th scope="col">S/O days</th>
+                            <th scope="col">Reconciliation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <span style="color:rgb(22, 119, 254)">
+                                    <%= product.name %> - <%= product.conversion%> dose/vial
+                                </span>
+                            </td>
+                            <td>
+                                <%=product.type%>
+                            </td>
+                            <td>
+                                <% if (product.uom_open==="vial" ){%>
+                                    <%= product.qty_open%>
+                                        <% } %>
+                                            <% if (product.uom_open==="dose" ){%>
+                                                <%= product.qty_open /product.conversion%>
+                                                    <% } %>
+                            </td>
+                            <td>
+                                <% if (product.uom_received==="vial" ){%>
+                                    <%= product.qty_received%>
+                                        <% } %>
+                                            <% if (product.uom_received==="dose" ){%>
+                                                <%= product.qty_received / product.conversion%>
+                                                    <% } %>
+                            </td>
+                            <td>
+                                <% if (product.uom_issued==="vial" ){%>
+                                    <%= product.qty_issued%>
+                                        <% } %>
+                                            <% if (product.uom_issued==="dose" ){%>
+                                                <%= product.qty_issued/ product.conversion%>
+                                                    <% } %>
+                            </td>
+                            <td>
+                                <%= product.qty_lost%>
+                            </td>
+                            <td>
+                                <%= product.qty_transferred%>
+                            </td>
+
+
+                            <td>
+                                <% if (product.uom_count==="vial" ){%>
+                                    <%= product.qty_count%>
+                                        <% } %>
+                                            <% if (product.uom_count==="dose" ){%>
+                                                <%= product.qty_count/product.conversion%>
+                                                    <% } %>
+                            </td>
+                            <td>
+                                <%=product.nearexp%> vials
+                                    (<%=((product.nearexp /product.qty_count)*100).toFixed(0)%>%)
+                            </td>
+                            <td>
+                                <%= product.so_days%>
+                            </td>
+                            <td>
+                                <% if (product.uom_received==="vial" && product.uom_issued==="vial" ) {%>
+                                    <%=((product.qty_count / (
+                                        product.qty_open+product.qty_received-product.qty_issued-product.qty_lost+product.qty_transferred
+                                        ))*100).toFixed(1)%>% <% } %>
+
+                                            <% if (product.uom_received==="dose" && product.uom_issued==="vial" ){%>
+                                                <%=((product.qty_count / (
+                                                    product.qty_open+(product.qty_received/product.conversion)-(product.qty_issued)-product.qty_lost+product.qty_transferred
+                                                    ))*100).toFixed(1)%>% <% } %>
+
+                                                        <% if (product.uom_received==="vial" &&
+                                                            product.uom_issued==="dose" ){%>
+                                                            <%=((product.qty_count / (
+                                                                product.qty_open+(product.qty_received)-(product.qty_issued/product.conversion)-product.qty_lost+product.qty_transferred
+                                                                ))*100).toFixed(1)%>% <% } %>
+
+                                                                    <% if (product.uom_received==="dose" &&
+                                                                        product.uom_issued==="dose" ){%>
+                                                                        <%=((product.qty_count / (
+                                                                            product.qty_open+(product.qty_received/product.conversion)-(product.qty_issued/product.conversion)-product.qty_lost+product.qty_transferred
+                                                                            ))*100).toFixed(1)%>% <% } %>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <h6> <span style="color:rgb(196, 192, 192)">Note: quantities received and issued as 'dose' will be
+                    converted to
+                    'vials' in the table to generate the correct reconciliation. <em>Issued</em> at PR, SN and LD
+                    level in
+                    principle means issued to another site where it is expected to be booked as <em>received</em>.
+                    At SP
+                    level <em>issued</em> per definition means actually used for vaccinations. However even at PR,
+                    SN or LD
+                    level limited quantities can be used to vaccinate children.
+                </span></h6>
+            <br>
+            <h3>Supporting Documentation Uploaded</h3>
+
+
+            <div class="row">
+                <div class="col-6">
+                    <div id="carousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+
+                            <% product.images.forEach((img, i)=> { %>
+                                <div class="carousel-item <%= i === 0 ? 'active' : ''%>">
+                                    <img src="<%= img.url%>" class="d-block w-100" alt="" crossorigin>
+                                </div>
+                                <% }) %>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carousel"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carousel"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div>
+                    <br>
+                    <br>
+                    <% if( currentUser && product.author.equals(currentUser._id)|| currentUser && currentUser.isAdmin)
+                        {%>
+                        <p><a class="btn btn-warning btn-sm" href="/products/<%=product._id%>/edit">Edit this Stock
+                                record</a>
+                        </p>
+
+                        <form action="/products/<%=product._id%>?_method=DELETE" method="POST">
+                            <button class="btn btn-sm btn-danger">Delete this Stock record</button>
+                        </form>
+                        <p>All associated comments and images will be deleted as well</p>
+                        <% }%>
+
+                            <br>
+                            <hr style=" width:100%; height: 10px; border: 0; box-shadow: 0 10px 10px -10px rgb(51, 51, 52) inset;">
+
+                            <br>
+                            <div class="row">
+
+                                <div class="col-12">
+                                    <div class="card mb-3">
+                                        <div class="card-body">
+                                            <h4>Comments</h4>
+                                            <form action="/products/<%=product._id%>/comments" method="POST"
+                                                class="mb-3 validated-form" novalidate>
+                                                <div class=" mb-3">
+                                                    <label class="form-label" for="body">Enter Text</label>
+                                                    <textarea class="form-control" name="comment[body]" id="body"
+                                                        cols="30" rows="3"></textarea>
+                                                    <div class="valid-feedback">
+                                                        Looks good!
+                                                    </div>
+                                                </div>
+                                                <button class="btn btn-sm btn-success">Submit Comment</button>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                    <p>Chronological comments:</p>
+                                    <% for(let comment of product.comments) { %>
+                                        <div class="card mb-3 ">
+                                            <div class="card-body">
+                                                <p class="card-text"><span style="color:rgb(82, 79, 79)"><em>
+                                                            Comment
+                                                            created
+                                                            at:
+                                                            <%= comment.createdAt.toDateString() %> ( <%=
+                                                                    moment(comment.createdAt).fromNow() %>)
+                                                        </em></span> <em><br>By: <span style="color:rgb(242, 111, 5)">
+                                                            <%= comment.author.username%> -
+                                                                <%= comment.author.job_position%></em>
+                                                    </span>
+
+
+                                                    </span> <br>
+                                                    <span style="color:black">
+                                                        <%= comment.body %>
+                                                    </span>
+                                                </p>
+
+
+                                                <% if( currentUser && comment.author.equals(currentUser._id)||
+                                                    currentUser && currentUser.isAdmin) {%>
+                                                    <form
+                                                        action="/products/<%=product._id%>/comments/<%=comment._id%>?_method=DELETE"
+                                                        method="POST"><button class="btn btn-sm btn-danger">Delete
+                                                            comment</button>
+                                                    </form>
+                                                    <% } %>
+                                            </div>
+                                        </div>
+                                        <% } %>
+
+                                </div>
+
+                            </div>
+
+                </div>
+
+                <br><br>
+
+                <a href="/products">Back to Products Stock Index</a>
+            </div>

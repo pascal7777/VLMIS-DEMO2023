@@ -1,0 +1,276 @@
+<% layout ('/layouts/boilerplate') %>
+
+
+    <div class="container">
+
+        <div class="container d-flex justify-content-center align-items-center mt-5">
+
+          <h1>New Stock Report</h1>  
+        
+        </div>
+        
+        <div class="container d-flex justify-content-center align-items-center">
+    <h2><span style="color:rgb(242, 111, 5)"><%=site.site_name%></span></h2></div>
+   
+        <p class="fs-6; fw-lighter" style="margin-top:1em">The review period is defined by the date of last stock
+            count to the date for a next stockcount (today).
+            Stock count for one or more products can be done any day
+            of the month so that over time all products in the the inventory are accounted for (cycle count)</p>
+        <form action="/sites/<%=site._id%>/products" method="POST" novalidate class="validated-form"
+            enctype="multipart/form-data">
+            <hr style=" border: 0;
+            height: 2px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
+
+            <div class="row">
+
+                <div class="col-md-3 offset-md-2">
+                    <label class="form-label" for="cat" class="form-label">Category</label>
+                    <input class="form-control" list="cats" name="cat" id="cat" placeholder="Type to search..."
+                        required>
+                    <datalist id="cats">
+                        <option value="PENTA">
+                        <option value="PNEUMONIAE">
+                        <option value="POLIO">
+                        <option value="MEASLES">
+                        <option value="COVID-19">
+                        <option value="DILUENTS">
+                    </datalist>
+                    <br>
+                    <label class="form-label" for="name" class="form-label">Vaccine</label>
+                    <input class="form-control" list="vaccines" name="name" id="name" placeholder="Type to search..."
+                        required>
+                    <datalist id="vaccines">
+                        <option value="penta">
+                        <option value="pcv">
+                        <option value="ipv">
+                        <option value="mr">
+                        <option value="pfizer">
+                        <option value="covishield">
+                        <option value="moderna bivalent"></option>
+                        <option value="diluent">
+                    </datalist>
+                </div>
+
+             
+                <div class="col-md-3 offset-md-2">
+                    <label class="form-label" for="type" class="form-label">Vaccine Type</label>
+                    <input class="form-control" list="types" name="type" id="type" placeholder="Type to search...">
+                    <datalist id="types">
+                        <option value="ROUTINE">
+                        <option value="CAMPAIGN">
+                        <option value="COVID-19">
+                        <option value="OTHER">
+                    </datalist>
+<br>
+                    <label class="form-label" for="conversion" class="form-label">Conversion (dose/vial)</label>
+                    <input class="form-control" type="number" name="conversion" id="conversion" required>
+                </div>
+            </div>
+
+
+            <br>
+            <hr style=" border: 0;
+            height: 2px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
+
+            <div class="row">
+                <div class="col-md-3 offset-md-2">
+                    <label class="form-label" for="date_open" class="form-label">Date Last Stockcount</label>
+                    <input class="form-control" type="date" name="date_open" id="date_open" required>
+                </div>
+                <div class="col-md-3 offset-md-2">
+
+                </div>
+                <div class="col-md-3 offset-md-2">
+
+                </div>
+                <div class="col-md-3 offset-md-2">
+
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-3 offset-md-2">
+                    <label class="form-label" for="qty_open" class="form-label">Qty Last Stockcount</label>
+                    <p class="fs-6; fw-lighter" style=" margin-bottom :0em">(from stock register)</p>
+                    <input class="form-control" type="number" name="qty_open" id="qty_open" required>
+                </div>
+                <div class="col-md-3 offset-md-2">
+                    <label class="form-label" for="uom_open" class="form-label">UoM</label>
+                    <p class="fs-6; fw-lighter" style=" margin-bottom :0em">(used to record stock count)</p>
+                    <input class="form-control" list="uom" name="uom_open" id="uom_open" required>
+                    <datalist id="uom">
+                        <option value="vial">
+                    </datalist>
+                </div>
+            </div>
+            <br>
+            <hr style=" border: 0;
+            height: 2px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
+
+            <div class="row">
+                <div class="col-md-3 offset-md-2">
+                    <label class="form-label" for="qty_received class=" form-label">Receipts
+                        <p class="fs-6; fw-lighter" style=" margin-bottom :0em">(since last stock count)</p>
+                    </label>
+                    <input class="form-control" type="number" name="qty_received" id="qty_received" required>
+                </div>
+                <div class="col-md-3 offset-md-2">
+                    <label class="form-label" for="uom_received" class="form-label">UoM
+                        <p class="fs-6; fw-lighter" style=" margin-bottom :0em">(used to record receipts)</p>
+                    </label>
+                    <input class="form-control" list="uom_rec" name="uom_received" id="uom_received"
+                        placeholder="Select...." required>
+                    <datalist id="uom_rec">
+                        <option value="vial">
+                        <option value="dose">
+                    </datalist>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-3 offset-md-2">
+                    <label class="form-label" for="qty_issued class=" form-label">Issued/Used
+                        <p class="fs-6; fw-lighter" style=" margin-bottom :0em">(since last stock count)</p>
+                    </label>
+                    <input class="form-control" type="number" name="qty_issued" id="qty_issued" required>
+                </div>
+                <div class="col-md-3 offset-md-2">
+                    <label class="form-label" for="uom_issued" class="form-label">UoM
+                        <p class="fs-6; fw-lighter" style=" margin-bottom :0em">(used to record issues)</p>
+                    </label>
+                    <input class="form-control" list="uom_iss" name="uom_issued" id="uom_issued" placeholder="Select..."
+                        required>
+                    <datalist id="uom_iss">
+                        <option value="vial">
+                        <option value="dose">
+                    </datalist>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-3 offset-md-2">
+                    <label class="form-label" for="qty_lost class=" form-label">Losses
+                        <p class="fs-6; fw-lighter" style=" margin-bottom :0em">(lost, expired or damaged since last
+                            stock count)</p>
+                    </label>
+                    <input class="form-control" type="number" name="qty_lost" id="qty_lost" required>
+                </div>
+                <div class="col-md-3 offset-md-2">
+                    <label class="form-label" for="uom_lost" class="form-label">UoM
+                        <p class="fs-6; fw-lighter" style=" margin-bottom :0em">(used to record losses)</p>
+                    </label>
+                    <input class="form-control" list="uom_lss" name="uom_lost" id="uom_lost" required>
+                    <datalist id="uom_lss">
+                        <option value="vial">
+                    </datalist>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-3 offset-md-2">
+                    <label class="form-label" for="qty_transferred class=" form-label">Transferred from/to other sites
+                        <p class="fs-6; fw-lighter" style=" margin-bottom :0em">(+/- since last stock count)</p>
+                    </label>
+                    <input class="form-control" type="number" name="qty_transferred" id="qty_transferred" required>
+                </div>
+                <div class="col-md-3 offset-md-2">
+                    <label class="form-label" for="uom_transferred" class="form-label">UoM
+                        <p class="fs-6; fw-lighter" style=" margin-bottom :0em">(used to record transfers)</p>
+                    </label>
+                    <input class="form-control" list="uom_trs" name="uom_transferred" id="uom_transferred" required>
+                    <datalist id="uom_trs">
+                        <option value="vial">
+                    </datalist>
+                </div>
+            </div>
+
+            <br>
+            <div class="row">
+                <div class="col-md-3 offset-md-2">
+                    <label class="form-label" for="qty_count class=" form-label">Stock Count
+                        <p class="fs-6; fw-lighter" style=" margin-bottom :0em"> (at end of review period)</p>
+                    </label>
+                    <input class="form-control" type="number" name="qty_count" id="qty_count" required>
+                </div>
+                <div class="col-md-3 offset-md-2">
+                    <label class="form-label" for="uom_count" class="form-label">UoM
+                        <p class="fs-6; fw-lighter" style=" margin-bottom :0em">(used to record stock count)</p>
+                    </label>
+                    <input class="form-control" list="uom_cnt" name="uom_count" id="uom_count" required>
+                    <datalist id="uom_cnt">
+                        <option value="vial">
+                    </datalist>
+                </div>
+            </div>
+            <br>
+            <hr style=" border: 0;
+            height: 2px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
+
+            <div class="row">
+                <div class="col-md-3 offset-md-2">
+                    <label class="form-label" for="so_days" class=" form-label">Stock out days
+                        <p class="fs-6; fw-lighter" style=" margin-bottom :0em"> (since last stock count)</p>
+                    </label>
+                    <input class="form-control" type="number" name="so_days" id="so_days" required>
+                </div>
+                <div class="col-md-3 offset-md-2">
+                    <label class="form-label" for="nearexp" class=" form-label">Nr Vials Near Expiration
+                        <p class="fs-6; fw-lighter" style=" margin-bottom :0em"> (will expiry in next 3 m)</p>
+                    </label>
+                    <input class="form-control" type="number" name="nearexp" id="nearexp" required>
+                </div>
+            </div>
+
+            <br>
+            <hr style=" border: 0;
+            height: 2px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
+
+            <!-- <div class="col">
+                <div class="form-file custom-file">
+                    <input type="file" class="form-file-input" id="image" name="image" multiple>
+                    <label class="form-file-label" for="image">
+                        <span class="form-file-text custom-file-label">Choose image(s)...</span>
+                        <span class="form-file-button">Browse</span>
+                    </label>
+                </div>
+            </div> -->
+
+            <div class="row">
+                <div class="col-md-3 offset-md-2">
+                    <div class="form-file custom-file">
+                        <input type="file" class="form-file-input" id="image" name="image" multiple>
+                        <label class="form-file-label" for="image">
+                            <span class="form-file-text custom-file-label">Upload images ('jpeg', 'png',
+                                'jpg')</span>
+                            <!-- <span class="form-file-button">Browse</span> -->
+                        </label>
+
+                    </div>
+                </div>
+                <div class="col-md-3 offset-md-2">
+
+                </div>
+            </div>
+
+
+
+
+            <br>
+            <hr style=" border: 0;
+            height: 2px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
+            <br>
+
+            <div class="d-grid gap-2 col-6 mx-auto">
+            <button class="btn btn-success">Submit</button>
+            <p><em>(note that submit may take some seconds depending on the nr images to upload)</em></p></div>
+        </form>
+        <br>
+        <a href="/sites/<%=site._id%>">Back to the Site Stock Details Report</a>
+
+    </div>

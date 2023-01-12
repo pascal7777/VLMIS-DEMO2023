@@ -1,0 +1,134 @@
+<% layout ('/layouts/boilerplate') %>
+    <div class="container">
+
+        <div class="container d-flex justify-content-center align-items-center mt-5">
+        <h1>Enter new Site</h1></div>
+    
+        <form action="/sites" method="POST" class="validated-form" novalidate>
+            
+            <hr style=" border: 0;
+            height: 2px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
+
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <label class="form-label" for="sc_level">Supply Chain Level</label>
+                    <!-- <input class="form-control" type="text" name="name" id="name" > -->
+                    <select class="form-select" type="text" name="sc_level" id="sc_level" required>
+                        <option selected>--- select ---</option>
+                        <option value="PR">Primary (Central warehouse)</option>
+                        <option value="SN">Subnational warehouse</option>
+                        <option value="LD">Endpoint (district store)</option>
+                        <option value="SP">Service delivery point (health facility)</option>
+                    </select>
+                </div>
+                <div class="col-md-6 offset-md-3">
+                </div>
+                <div class="col-md-6 offset-md-3">
+                </div>
+            </div>
+
+            <br>
+        
+           <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <label class="form-label" for="site_name" class="form-label">Name Site</label>
+                    <input class="form-control" type="text" name="site_name" id="site_name">
+                </div>
+               
+                <div class="col-md-6 offset-md-3">
+                </div>
+            </div>
+
+            <br> 
+
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <label class="form-label" for="site_district" class="form-label">Site Location                  (note: ....  used for Geocoding)</label>
+                    <input class="form-control" type="text" name="site_district" id="site_district" placeholder="Enter: city, state, district, province etc.">
+               
+             <br> 
+               
+                    <label class="form-label" for="country" class="form-label">Country</label>
+                    <input class="form-control" type="text" name="country" id="country" placeholder="Country">
+                </div>
+            </div>
+          
+            <!-- <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <label class="form-label" for="site_telephone" class="form-label">Telephone</label>
+                    <input class="form-control" type="text" name="site_telephone" id="site_telephone">
+                    <br>
+                    <label class="form-label" for="site_email" class="form-label">Email</label>
+                    <input class="form-control" type="email" name="site_email" id="site_email">
+                </div>
+                <div class="col-md-6 offset-md-3">
+                </div>
+                <div class="col-md-6 offset-md-3">
+                </div>
+            </div> -->
+           
+           <hr style=" border: 0;
+            height: 2px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
+            
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <label class="form-label" for="storecap" class="form-label">Dry Storage capacity (M3/Pallet)</label>
+                    <input class="form-control" type="number" name="site_storecap" id="site_storecap">
+                    <br>
+                    <label class="form-label" for="fridgecap" class="form-label">Refrigerator capacity (L)</label>
+                    <input class="form-control" type="number" name="site_fridgecap" id="site_fridgecap">
+                    <br>
+                    <label class="form-label" for="freezecap" class="form-label">-20C Freezer capacity (L)</label>
+                    <input class="form-control" type="number" name="site_freezecap" id="site_freezecap">
+                    <br>
+                    <label class="form-label" for="ulfreezecap" class="form-label">-70C Ultra-Freezer capacity (L)</label>
+                    <input class="form-control" type="number" name="site_ulfreezecap" id="site_ulfreezecap">
+                </div>
+                <div class="col-md-6 offset-md-3">
+                </div>
+                <div class="col-md-6 offset-md-3">
+                </div>
+            </div>
+
+            <br> 
+           
+            <hr style=" border: 0;
+            height: 2px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
+            
+            <div class="row">
+                <br>
+               
+                <div class="col-md-6 offset-md-3">
+                    <label class="form-label" for="parent_name" class="form-label">Name of Supplying Warehouse</label>
+                    <input class="form-control" type="text" name="parent_name" id="parent_name">      
+                
+                <br>
+                    <label class="form-label" for="children_store" class="form-label"># Other stores that routinely receive EPI supplies from this site</label>
+                    <input class="form-control" type="number" name="children_store" id="children_store">  
+                    <br>
+                    <label class="form-label" for="children_facility" class="form-label"># Health Facilities that routinely receive EPI supplies from this site</label>
+                    <input class="form-control" type="number" name="children_facility" id="children_facility">  
+                </div>
+            </div>
+            
+            
+            <br>
+
+          
+
+
+            
+            <hr style=" border: 0;
+            height: 2px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
+         
+
+            <br>
+         
+            <div class="d-grid gap-2 col-6 mx-auto">
+            <button class="btn btn-success">Submit</button> </div>
+        </form>
+    </div>

@@ -1,0 +1,21 @@
+
+  
+  .nav-link {
+      padding: 0.25rem 0;
+      font-weight: 700;
+      color: rgba(28, 29, 29, 0.5);
+      margin-left: 1rem;
+      border-bottom: 0.25rem solid transparent;
+  }
+  
+  .nav-link:hover{
+      color: rgba(64, 65, 65, 0.45);
+      border-bottom-color:rgba(33, 32, 32, 0.5);
+  }
+  
+  .nav-link.active {
+      color: rgb(98, 100, 102);
+      border-bottom-color:rgba(50, 46, 46, 0.277);
+  
+  }
+ 

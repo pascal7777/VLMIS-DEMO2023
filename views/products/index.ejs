@@ -1,0 +1,279 @@
+<% layout ('/layouts/boilerplate') %>
+
+    <div class="container">
+        <br>
+        <div class="table-responsive">
+            <h3>
+                Product Cycle Counts <<%=products.length%>>
+            </h3>
+            <br>
+
+            <div class="row">
+                <div class="col-9">
+                    <a class="btn btn-warning btn-sm"
+                        style=" margin-left: 15px; margin-right: 15px; margin-top: 5px; margin-bottom: 5px"
+                        href="./products?cat=PENTA" role="button">Penta </a>
+                    <a class="btn btn-warning btn-sm"
+                        style=" margin-left: 15px; margin-right: 15px; margin-top: 5px; margin-bottom: 5px"
+                        href="./products?cat=PNEUMONIAE" role="button">Pneumoniae</a>
+                    <a class="btn btn-warning btn-sm"
+                        style=" margin-left: 15px; margin-right: 15px; margin-top: 5px; margin-bottom: 5px"
+                        href="./products?cat=POLIO" role="button">Polio</a>
+                    <a class="btn btn-warning btn-sm"
+                        style=" margin-left: 15px; margin-right: 15px; margin-top: 5px; margin-bottom: 5px"
+                        href="./products?cat=MEASLES" role="button">Measles</a>
+                    <a class="btn btn-warning btn-sm"
+                        style=" margin-left: 15px; margin-right: 15px; margin-top: 5px; margin-bottom: 5px"
+                        href="./products?cat=COVID-19" role="button">Covid-19</a>
+                    <a class="btn btn-warning btn-sm"
+                        style=" margin-left: 15px; margin-right: 15px; margin-top: 5px; margin-bottom: 5px"
+                        href="./products?cat=DILUENTS" role="button">Diluents</a>
+                </div>
+
+                <div class="col-3" style="padding-left: 2em">
+                    <input type=" text" id="myInput3" onkeyup="myFunction()"
+                        style="width:14em; padding: 5px 5px 5px 10px" placeholder="Search Site Name ...">
+                </div>
+            </div>
+
+            <br>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <div class="container">
+                <table class="table table-striped table-hover" ; id="vaccineTable">
+                    <thead>
+                        <tr>
+                            <th>
+                                <h5>Site</h5>
+                            </th>
+                            <th onclick="sortTable(1)">
+                                <h5>Vaccine</h5>
+                            </th>
+                            
+                            <th>
+                                <h5>From
+                                </h5>
+                            </th>
+                            <th>
+                                <h5>To
+                                </h5>
+                            </th>
+                            <th>
+                                <h5>Days
+                            </th>
+                            <th>
+                                <h5>Stock Reconciliation</h5>
+                            </th>
+                            <th>
+                                <h5>Months of Stock
+                                </h5>
+                            <th>
+                                <h5>Stock out days
+                                </h5>
+                            </th>
+                            <th>
+                                <h5>Near Expiry Risk
+                                </h5>
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+
+                            <% for(let product of products) { %>
+
+                                <td>
+                                    <a href="/sites/<%= product.site._id %>">
+                                        <%= product.site.site_name%>
+                                    </a>
+                                </td>
+                                <td>
+                                    <%= product.name %>
+                                </td>
+                            
+                                <td>
+                                    <%=(product.date_open.getMonth()+1)%>/<%=product.date_open.getFullYear()%>
+                                </td>
+                                <td>
+                                    <%=(product.date_open.getMonth()+1)%>/<%=product.createdAt.getFullYear() %>
+                                </td>
+                                <td>
+                                    <%=((product.createdAt- product.date_open)/86400000).toFixed(0) %>
+                                </td>
+
+
+                                <td><a href="/products/<%=product._id%>">
+                                        <% if (product.uom_received==="vial" && product.uom_issued==="vial" ) {%>
+                                            <%=((product.qty_count / (
+                                                product.qty_open+product.qty_received-product.qty_issued-product.qty_lost+product.qty_transferred
+                                                ))*100).toFixed(1)%>% <% } %>
+
+                                                    <% if (product.uom_received==="dose" && product.uom_issued==="vial"
+                                                        ){%>
+                                                        <%=((product.qty_count / (
+                                                            product.qty_open+(product.qty_received/product.conversion)-(product.qty_issued)-product.qty_lost+product.qty_transferred
+                                                            ))*100).toFixed(1)%>% <% } %>
+
+                                                                <% if (product.uom_received==="vial" &&
+                                                                    product.uom_issued==="dose" ){%>
+                                                                    <%=((product.qty_count / (
+                                                                        product.qty_open+(product.qty_received)-(product.qty_issued/product.conversion)-product.qty_lost+product.qty_transferred
+                                                                        ))*100).toFixed(1)%>% <% } %>
+
+                                                                            <% if (product.uom_received==="dose" &&
+                                                                                product.uom_issued==="dose" ){%>
+                                                                                <%=((product.qty_count / (
+                                                                                    product.qty_open+(product.qty_received/product.conversion)-(product.qty_issued/product.conversion)-product.qty_lost+product.qty_transferred
+                                                                                    ))*100).toFixed(1)%>% <% } %>
+                                    </a>
+                                </td>
+                                <td>
+                                    <% if (product.uom_issued==="vial" ) {%>
+                                        <%=((product.qty_count)
+                                            /(product.qty_issued)*(((product.createdAt-product.date_open)/86400000)/30)).toFixed(1)
+                                            %>
+                                            <% } %>
+                                                <% if (product.uom_issued==="dose" ) {%>
+                                                    <%=((product.qty_count
+                                                        /(product.qty_issued/product.conversion))*(((product.createdAt-product.date_open)/86400000)/30)).toFixed(1)
+                                                        %>
+                                                        <% } %>
+                                </td>
+                                <td>
+                                    <%=product.so_days %> ( <%=(product.so_days
+                                            /((product.createdAt-product.date_open)/86400000)*100).toFixed(0)%>
+                                            %)
+                                </td>
+                                <td>
+                                    <% if (product.uom_issued==="vial" ) {%>
+                                        <% if ( (product.nearexp/product.qty_count)> 0.3 &&
+                                            product.nearexp>product.qty_issued)
+                                            {
+                                            %>
+                                            <p>Yes</p>
+                                            <%} else { %>
+                                                <p>No</p>
+                                                <%}%>
+                                                    <% } %>
+                                                        <% if (product.uom_issued==="dose" ) {%>
+                                                            <% if ( (product.nearexp/product.qty_count)> 0.3 &&
+                                                                product.nearexp>(product.qty_issued/product.conversion))
+                                                                {
+                                                                %>
+                                                                <p>Yes</p>
+                                                                <%} else { %>
+                                                                    <p>No</p>
+                                                                    <%}%>
+                                                                        <% } %>
+                                </td>
+                        </tr>
+                    </tbody>
+                    <% }%>
+                </table>
+
+                <h6> <em><span style="color:rgb(196, 192, 192)">Site name links to submitted stock reports
+                            for that site in the year. Stock reconciliation links to the specific stock report details.
+                        </span></h6></em>
+            </div>
+
+            <br>
+
+            <% if(cat !=="All" ) {%>
+                <a href="/products">Back to All Products</a>
+                <% }%>
+
+
+        </div>
+        <br>
+    </div>
+    <br>
+
+
+
+
+
+
+    <script>
+        function myFunction() {
+            // Declare variables
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput3");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("vaccineTable");
+            tr = table.getElementsByTagName("tr");
+
+            // Loop through all table rows, and hide those who don't match the search query
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+
+    <script>
+        function sortTable(n) {
+            var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+            table = document.getElementById("vaccineTable");
+            switching = true;
+            // Set the sorting direction to ascending:
+            dir = "asc";
+            /* Make a loop that will continue until
+            no switching has been done: */
+            while (switching) {
+                // Start by saying: no switching is done:
+                switching = false;
+                rows = table.rows;
+                /* Loop through all table rows (except the
+               first, which contains table headers): */
+                for (i = 1; i < (rows.length - 1); i++) {
+                    // Start by saying there should be no switching:
+                    shouldSwitch = false;
+                    /* Get the two elements you want to compare,
+                    one from current row and one from the next: */
+                    x = rows[i].getElementsByTagName("TD")[n];
+                    y = rows[i + 1].getElementsByTagName("TD")[n];
+                    /* Check if the two rows should switch place,
+                    based on the direction, asc or desc: */
+                    if (dir == "asc") {
+                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                            // If so, mark as a switch and break the loop:
+                            shouldSwitch = true;
+                            break;
+                        }
+                    } else if (dir == "desc") {
+                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                            // If so, mark as a switch and break the loop:
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                }
+                if (shouldSwitch) {
+                    /* If a switch has been marked, make the switch
+                    and mark that a switch has been done: */
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                    // Each time a switch is done, increase this count by 1:
+                    switchcount++;
+                } else {
+                    /* If no switching has been done AND the direction is "asc",
+                    set the direction to "desc" and run the while loop again. */
+                    if (switchcount == 0 && dir == "asc") {
+                        dir = "desc";
+                        switching = true;
+                    }
+                }
+            }
+        }
+    </script>
