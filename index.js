@@ -74,7 +74,7 @@ store.on("error", function(e){
 const sessionConfig = {
     store,
     name: 'vientiane',
-    secret: 'thisisnotagoodsecret',
+    secret: 'squirrel',
     resave: false,
     saveUnitialized: true,
     cookie: {
