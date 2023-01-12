@@ -26,38 +26,22 @@ const commentRoutes = require('./routes/comments');
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require("helmet");
 
-const dbURL = process.env.DB_URL
-// const dbURL = 'mongodb://localhost:27017/vlmis'
+const dbURL = process.env.DB_URL || 'mongodb://localhost:27017/vlmis';
+const secret = process.env.SECRET || 'squirrel';
 
 const MongoStore = require('connect-mongo');
 
 // local db connect: 
 // mongoose.connect(dbURL, { useNewUrlParser: true, useUnifiedTopology: true })
 // Mongo Atlas connect
-// mongoose.connect(dbURL, { useNewUrlParser: true, useUnifiedTopology: true })
-//     .then(() => {
-//         console.log("MONGO CONNECTION OPEN!!!")
-//     })
-//     .catch(err => {
-//         console.log("OH NO MONGO CONNECTION ERROR!!!!")
-//         console.log(err)
-//     })
-
-const PORT = process.env.PORT || 3000
-
-const connectDB = async () => {
-  try {
-    const conn = await mongoose.connect(process.env.MONGO_URI);
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
-  } catch (error) {
-    console.log(error);
-    process.exit(1);
-  }
-}
-
-
-
-
+mongoose.connect(dbURL, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => {
+        console.log("MONGO CONNECTION OPEN!!!")
+    })
+    .catch(err => {
+        console.log("OH NO MONGO CONNECTION ERROR!!!!")
+        console.log(err)
+    })
 
 const app = express();
 
@@ -79,7 +63,7 @@ const store =  MongoStore.create({
     mongoUrl: dbURL,
     touchAfter: 24 * 60 * 60,
     crypto: {
-        secret: 'squirrel'
+        secret,
 }
 });
 
@@ -90,7 +74,7 @@ store.on("error", function(e){
 const sessionConfig = {
     store,
     name: 'vientiane',
-    secret: 'squirrel',
+    secret,
     resave: false,
     saveUnitialized: true,
     cookie: {
@@ -221,17 +205,11 @@ app.use((err, req, res, next) => {
 
 // +++++ listening +++++
 
-// const PORT = process.env.PORT || 3000
-// app.listen(PORT, () => {
-//     console.log(`App listens on Port ${PORT}`)
-// })
-
-
-connectDB().then(() => {
-    app.listen(PORT, () => {
-        console.log("listening for requests");
-    })
+const PORT = process.env.PORT || 3000
+app.listen(PORT, () => {
+    console.log(`App listens on Port ${PORT}`)
 })
+
 
 // app.listen(3000, () => {
 //     console.log("APP IS LISTENING ON PORT 3000!")
